@@ -1,5 +1,5 @@
 # loco-transaction-api
-A FastAPI application for managing transactions stored in a PostgreSQL database. This service allows users to create transactions, retrieve transaction details like get the the transaction details from transaction id and list of all transaction ids that share the same type and compute sums of linked transactions.
+A FastAPI application for managing transactions stored in a PostgreSQL database. This service allows users the following features:
 
 ## Features
 
@@ -7,10 +7,11 @@ A FastAPI application for managing transactions stored in a PostgreSQL database.
 - Retrieve transaction details by ID.
 - List all transaction IDs of a specific type.
 - Calculate the total amount of all linked transactions. (Parent-Child transactions)
+- NOTE: For the `sum` API, I have assumed the given transaction_id in the request as parent_id to look for all child transaction ids and their subsequent children. 
 
 ## Technologies Used
 
-- **FastAPI**: A modern web framework for building APIs with Python 3.6+.
+- **FastAPI**: A modern web framework for building APIs with Python
 - **SQLAlchemy**: ORM for database interaction.
 - **PostgreSQL**: Relational database management system.
 - **Pydantic**: Data validation and settings management using Python type annotations.
@@ -18,22 +19,18 @@ A FastAPI application for managing transactions stored in a PostgreSQL database.
 ### Installation
 ```
 1.Create a virtual environment :
-  bash script
   python -m venv venv
-  source venv/bin/activate  # On Windows use `venv\Scripts\activate`
-
+  source venv/bin/activate
 
 2.Install the required packages:
-  bash
   pip install -r requirements.txt
 
-3.Set up your PostgreSQL database and update the .env file with your database credentials:
-  text
-  DATABASE_URL=postgresql://username:password@localhost/dbname
+3.Set up your PostgreSQL database and add the DATABASE_URL in the .env file present inside the app folder
+  DATABASE_URL=postgresql://username:password@localhost:port/dbname
 
 4.Run the application:
-  bash
-  uvicorn app.main:app --reload
+  cd app/
+  uvicorn main:app --reload
 ```
 
 ### API Endpoints
