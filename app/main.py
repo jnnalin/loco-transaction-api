@@ -1,6 +1,10 @@
+from dotenv import load_dotenv
 from fastapi import FastAPI
-from app.db import init_db
-from app.routes import router
+
+load_dotenv()
+
+from db.postgres import init_db
+from routes.transaction import router
 
 app = FastAPI()
 

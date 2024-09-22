@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, Float, String, ForeignKey
 from sqlalchemy.orm import relationship
-from app.db import Base
+from db.postgres import Base
 
 
 # Define Transactions table model

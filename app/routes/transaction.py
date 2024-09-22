@@ -3,9 +3,9 @@ from collections import deque
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
 
-from app.db import get_db
-from app.models import Transaction as DBTransaction
-from app.schemas import TransactionCreate, Transaction, TransactionSum, TransactionList
+from db.postgres import get_db
+from models.schema import Transaction as DBTransaction
+from models.pydantic import TransactionCreate, Transaction, TransactionSum, TransactionList
 
 router = APIRouter()
 
@@ -37,15 +37,16 @@ async def get_transactions_by_type(type: str, db: Session = Depends(get_db)):
 
 @router.get("/sum/{transaction_id}", response_model=TransactionSum)
 async def get_transaction_sum(transaction_id: int, db: Session = Depends(get_db)):
-    def calculate_sum(transaction_id):
+
+    def calculate_sum(trans_id):
         total_sum = 0.0
         visited = set()  # Tracking visited transactions to avoid duplicates
 
         children_transactions = deque()
 
-        # Get the first list of child transactions of the given transaction_id
-        # considering the given transaction_id as the parent_id
-        initial_transactions = db.query(DBTransaction).filter(DBTransaction.parent_id == transaction_id).all()
+        # Get the first list of child transactions of the given trans_id
+        # considering the given trans_id as the parent_id
+        initial_transactions = db.query(DBTransaction).filter(DBTransaction.parent_id == trans_id).all()
         for t in initial_transactions:
             children_transactions.append((t.id, t.amount))
 
